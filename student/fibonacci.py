@@ -1,32 +1,22 @@
+from numba import jit
+
+@jit(nopython=True)
+def fib_doubling(n):
+    if n == 0:
+        return 0, 1
+    k = n // 2
+    fk, fkp1 = fib_doubling(k)
+    fk2 = fk * fk
+    fkp12 = fkp1 * fkp1
+    f2k = fk * (2 * fkp1 - fk)
+    f2kp1 = fkp12 + fk2
+    if n % 2 == 0:
+        return f2k, f2kp1
+    else:
+        return f2kp1, f2k + f2kp1
+        
+@jit(nopython=True)
 def fibonacci(n):
-    """
-    Calculate the nth Fibonacci number recursively.
-
-    The Fibonacci sequence is a series of numbers where each number is the sum 
-    of the two preceding ones, usually starting with 0 and 1. This function 
-    uses a recursive approach to calculate the Fibonacci number at position n.
-
-    Parameters:
-    n (int): The position in the Fibonacci sequence to calculate. Must be a non-negative integer.
-
-    Returns:
-    int: The nth Fibonacci number.
-
-    Examples:
-    >>> fibonacci(0)
-    0
-    >>> fibonacci(1)
-    1
-    >>> fibonacci(5)
-    5
-    >>> fibonacci(9)
-    34
-    """
-    if n <= 1:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
-
-
-
-# n = 35
-# print(f"Trying this solution: Fibonacci({n}) = {fibonacci(n)}")
+    if n == 0:
+        return 0
+    return fib_doubling(n)[0]
