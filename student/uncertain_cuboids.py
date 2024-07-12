@@ -13,18 +13,10 @@ def calculate_uncertain_cuboid_statistics(n_sample, mean_length, mean_width, mea
     :return: tuple, The mean volume and standard deviation of the volume of the cuboid.
     '''
 
-    # Calculate the start and end of the ranges for the dimensions - avoids repeated calculations
-    length_start = mean_length - range_length / 2
-    length_end = mean_length + range_length / 2
-    width_start = mean_width - range_width / 2
-    width_end = mean_width + range_width / 2
-    height_start = mean_height - range_height / 2
-    height_end = mean_height + range_height / 2
-
     # Use numpy to generate random samples rather than random to allow for vectorized operations
-    lengths = np.random.uniform(length_start, length_end, n_sample)
-    widths = np.random.uniform(width_start, width_end, n_sample)
-    heights = np.random.uniform(height_start, height_end, n_sample)
+    lengths = np.random.uniform(mean_length - range_length / 2, mean_length + range_length / 2, n_sample)
+    widths = np.random.uniform(mean_width - range_width / 2, mean_width + range_width / 2, n_sample)
+    heights = np.random.uniform(mean_height - range_height / 2, mean_height + range_height / 2, n_sample)
 
     # Calculate the volumes of the cuboids
     volumes = lengths * widths * heights
